@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Maa-Shaeb Caterers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange: #F26419;
+      --red:    #C1121F;
+      --cream:  #FFF8F0;
+      --white:  #FFFFFF;
+      --dark:   #1A0A00;
+      --muted:  #8A6A52;
+      --border: #F0E0D0;
+      --nav-h:  58px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #FAF5F0;
+      color: var(--dark);
+      padding-bottom: calc(var(--nav-h) + var(--safe-bottom));
+      -webkit-font-smoothing: antialiased;
+    }
+ 
+    /* ── TOP HEADER ── */
+    .top-header {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-brand { display: flex; align-items: center; gap: 9px; }
+    .header-logo {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .header-brand h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.22rem; color: var(--red); line-height: 1.1;
+    }
+    .header-brand small {
+      display: block; font-size: .57rem; color: var(--muted);
+      font-family: 'Nunito', sans-serif; font-weight: 500;
+      letter-spacing: .5px; text-transform: uppercase;
+    }
+    .header-actions { display: flex; gap: 8px; }
+    .hdr-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--dark); padding: 5px; border-radius: 8px;
+      transition: background .15s;
+    }
+    .hdr-btn:hover { background: var(--cream); }
+ 
+    /* ── SECTIONS ── */
+    .section { display: none; }
+    .section.active { display: block; }
+ 
+    /* ══════════════════════════════
+       HOME — INSTAGRAM FEED
+    ══════════════════════════════ */
+    #home { background: #FAF5F0; }
+ 
+    /* ── HERO IMAGE BANNER ── */
+    .hero-banner {
+      width: 100%;
+      background: #f0e8df;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-banner img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-banner .hero-placeholder {
+      width: 100%;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fff5ee, #ffe8d6);
+      gap: 10px;
+    }
+    .hero-banner .hero-placeholder span { font-size: 3rem; }
+    .hero-banner .hero-placeholder p {
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+ 
+    .feed-container { padding: 6px 0; }
+ 
+    /* POST CARD */
+    .post-card {
+      background: var(--white);
+      margin-bottom: 8px;
+      animation: fadeUp .4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+ 
+    .post-header {
+      padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .post-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .post-meta { flex: 1; }
+    .post-meta .uname { font-size: .86rem; font-weight: 700; }
+    .post-meta .utime { font-size: .71rem; color: var(--muted); }
+    .post-more { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1.2rem; padding: 4px; }
+ 
+    .post-media {
+      width: 100%; aspect-ratio: 1/1; overflow: hidden;
+      background: #f0e8df; position: relative;
+    }
+    .post-media img, .post-media video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .heart-burst {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      font-size: 5rem; pointer-events: none;
+      opacity: 0; transition: transform .15s ease, opacity .4s ease .15s;
+    }
+    .heart-burst.pop { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+ 
+    .post-actions {
+      padding: 8px 14px 4px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .action-btn {
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      color: var(--dark); font-size: .82rem; font-weight: 600;
+      padding: 4px 0; transition: color .15s; font-family: 'Nunito', sans-serif;
+    }
+    .action-btn svg { width: 23px; height: 23px; transition: transform .2s; }
+    .action-btn:hover svg { transform: scale(1.15); }
+    .action-btn.liked { color: var(--red); }
+    .action-btn.liked svg { fill: var(--red); stroke: var(--red); }
+    .share-btn { margin-left: auto; }
+ 
+    .post-caption { padding: 4px 14px 10px; }
+    .post-caption .uname2 { font-size: .85rem; font-weight: 700; margin-right: 4px; }
+    .post-caption .captext { font-size: .84rem; line-height: 1.5; }
+    .post-caption .tags { color: var(--orange); font-size: .8rem; margin-top: 3px; }
+ 
+    /* ══════════════════════════════
+       ABOUT
+    ══════════════════════════════ */
+    .about-hero {
+      background: linear-gradient(160deg, var(--red) 0%, var(--orange) 100%);
+      color: #fff; padding: 48px 24px 36px; text-align: center;
+    }
+    .about-hero .av {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin-bottom: 12px; border: 3px solid rgba(255,255,255,.4);
+    }
+    .about-hero h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; }
+    .about-hero p  { font-size: .88rem; opacity: .85; margin-top: 6px; }
+    .about-body { padding: 24px 16px; }
+    .about-card {
+      background: var(--white); border-radius: 16px; padding: 20px;
+      margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      border-left: 4px solid var(--orange);
+    }
+    .about-card h3 { color: var(--red); margin-bottom: 7px; font-size: 1rem; }
+    .about-card p  { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+    .niyaz-card {
+      background: linear-gradient(135deg,#fff5ee,#ffe8d6);
+      border-radius: 16px; padding: 22px; text-align: center;
+      border: 2px dashed var(--orange); margin-bottom: 14px;
+    }
+    .niyaz-card .heart { font-size: 2.4rem; margin-bottom: 8px; }
+    .niyaz-card h3 { color: var(--red); font-size: 1.15rem; margin-bottom: 7px; }
+    .niyaz-card p  { font-size: .84rem; color: var(--muted); line-height: 1.7; }
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 4px; }
+    .stat-box { background: var(--orange); color: #fff; border-radius: 14px; padding: 16px 8px; text-align: center; }
+    .stat-box .num { font-size: 1.5rem; font-weight: 700; }
+    .stat-box .lbl { font-size: .68rem; opacity: .9; margin-top: 2px; }
+ 
+    /* ══════════════════════════════
+       MENU
+    ══════════════════════════════ */
+    .menu-header {
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: #fff; padding: 36px 24px 28px; text-align: center;
+    }
+    .menu-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; }
+    .menu-header p  { font-size: .87rem; opacity: .85; margin-top: 5px; }
+    .menu-body { padding: 16px; }
+    .cat-label {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+      color: var(--red); margin: 20px 0 10px;
+      padding-left: 10px; border-left: 3px solid var(--orange);
+    }
+    .menu-card {
+      background: var(--white); border-radius: 14px;
+      overflow: hidden; display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      transition: transform .2s;
+    }
+    .menu-card:active { transform: scale(.98); }
+    .menu-card img { width: 95px; height: 95px; object-fit: cover; flex-shrink: 0; }
+    .mci { flex: 1; padding: 10px 0; }
+    .mci h3 { font-size: .92rem; margin-bottom: 3px; }
+    .mci p  { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+    .mci .price { display: inline-block; margin-top: 5px; background: #fff0e6; color: var(--orange); font-weight: 700; font-size: .8rem; padding: 2px 10px; border-radius: 20px; }
+    .mcr { padding-right: 12px; }
+    .order-btn {
+      background: var(--orange); color: #fff; border: none;
+      border-radius: 10px; padding: 9px 12px;
+      font-size: .77rem; font-weight: 700; cursor: pointer;
+      font-family: 'Nunito', sans-serif; white-space: nowrap;
+      transition: background .2s;
+    }
+    .order-btn:hover { background: var(--red); }
+ 
+    /* ══════════════════════════════
+       BOTTOM NAV
+    ══════════════════════════════ */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: calc(var(--nav-h) + var(--safe-bottom));
+      background: var(--white); border-top: 1px solid var(--border);
+      display: flex; z-index: 300;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+      padding-bottom: var(--safe-bottom);
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      cursor: pointer; color: var(--muted);
+      font-size: .65rem; font-weight: 600; letter-spacing: .3px;
+      background: none; border: none; transition: color .2s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .nav-item svg { width: 22px; height: 22px; transition: transform .2s; }
+    .nav-item.active { color: var(--orange); }
+    .nav-item.active svg { transform: scale(1.15); }
+ 
+    /* ── CONTACT US NAV ITEM ── */
+    .nav-item.contact-nav { color: var(--red); }
+    .nav-item.contact-nav svg { stroke: var(--red); }
+    .nav-item.contact-nav:hover { color: var(--orange); }
+ 
+    /* ══════════════════════════════
+       FAB
+    ══════════════════════════════ */
+    .fab {
+      position: fixed;
+      bottom: calc(var(--nav-h) + var(--safe-bottom) + 16px);
+      left: 20px;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      border: none; border-radius: 50%; color: #fff;
+      cursor: pointer; z-index: 250;
+      box-shadow: 0 6px 20px rgba(242,100,25,.45);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .fab:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(242,100,25,.55); }
+    .fab:active { transform: scale(.94); }
+ 
+    /* ══════════════════════════════
+       BOTTOM SHEET BASE
+    ══════════════════════════════ */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(26,10,0,.55); z-index: 400;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+    .sheet {
+      background: var(--white); width: 100%; max-width: 480px;
+      border-radius: 22px 22px 0 0;
+      padding: 18px 20px 36px;
+      transform: translateY(100%);
+      transition: transform .3s cubic-bezier(.32,0,.67,0);
+    }
+    .overlay.open .sheet { transform: translateY(0); transition-timing-function: cubic-bezier(.33,1,.68,1); }
+    .sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: #ddd; margin: 0 auto 16px; }
+ 
+    /* ══════════════════════════════
+       CREATE POST SHEET
+    ══════════════════════════════ */
+    #postSheet h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--red); margin-bottom: 16px; text-align: center; }
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: 14px;
+      padding: 28px 20px; text-align: center; margin-bottom: 14px;
+      cursor: pointer; background: var(--cream);
+      transition: border-color .2s, background .2s;
+    }
+    .upload-zone:hover { border-color: var(--orange); background: #fff5ee; }
+    .upload-zone .uz-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .upload-zone p { font-size: .82rem; color: var(--muted); }
+    .upload-zone strong { color: var(--orange); }
+    #fileInput { display: none; }
+    .preview-wrap {
+      display: none; position: relative; border-radius: 14px;
+      overflow: hidden; margin-bottom: 14px; aspect-ratio: 1; background: #000;
+    }
+    .preview-wrap img, .preview-wrap video { width: 100%; height: 100%; object-fit: cover; }
+    .rm-preview {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,.6); color: #fff; border: none;
+      border-radius: 50%; width: 28px; height: 28px; cursor: pointer;
+      font-size: .85rem; display: flex; align-items: center; justify-content: center;
+    }
+    textarea.caption-input {
+      width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 12px; font-family: 'Nunito', sans-serif; font-size: .88rem;
+      resize: none; outline: none; color: var(--dark); background: var(--cream);
+      line-height: 1.5; transition: border-color .2s;
+    }
+    textarea.caption-input:focus { border-color: var(--orange); background: #fff; }
+    .sheet-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .btn-cancel {
+      flex: 1; background: var(--cream); color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 13px; font-size: .88rem; font-weight: 600;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+    }
+    .btn-post {
+      flex: 2; background: linear-gradient(135deg, var(--orange), var(--red));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 13px; font-size: .88rem; font-weight: 700;
+      cursor: pointer; font-family: 'Nunito', sans-serif; transition: opacity .2s;
+    }
+    .btn-post:hover { opacity: .9; }
+ 
+    /* ══════════════════════════════
+       SHARE SHEET
+    ══════════════════════════════ */
+    #shareOverlay { z-index: 450; }
+    #shareSheet h4 { text-align: center; font-size: .95rem; font-weight: 700; margin-bottom: 18px; }
+    .share-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px 8px; }
+    .share-opt {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      cursor: pointer; border: none; background: none; font-family: 'Nunito', sans-serif;
+    }
+    .si {
+      width: 54px; height: 54px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; transition: transform .15s;
+    }
+    .share-opt:hover .si { transform: scale(1.1); }
+    .share-opt span { font-size: .7rem; color: var(--muted); font-weight: 600; }
+    .si-wa   { background: #e7fde9; }
+    .si-ig   { background: linear-gradient(135deg,#fde0f5,#fce5d2); }
+    .si-fb   { background: #e8f0fe; }
+    .si-tw   { background: #e8f5fd; }
+    .si-sms  { background: #e0f7fa; }
+    .si-mail { background: #fff3e0; }
+    .si-copy { background: var(--cream); }
+    .si-more { background: #f0f0f0; }
+    .share-cancel {
+      width: 100%; margin-top: 16px; padding: 13px;
+      background: var(--cream); border: none; border-radius: 14px;
+      font-size: .88rem; font-weight: 700; color: var(--muted);
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+    }
+ 
+    /* ══════════════════════════════
+       QR POPUP
+    ══════════════════════════════ */
+    .qr-overlay {
+      position: fixed; inset: 0; background: rgba(26,10,0,.6);
+      z-index: 500; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .qr-overlay.open { opacity: 1; pointer-events: all; }
+    .qr-box {
+      background: var(--white); border-radius: 20px;
+      padding: 28px 22px; text-align: center; max-width: 320px; width: 100%;
+      transform: translateY(20px); transition: transform .25s;
+      box-shadow: 0 24px 60px rgba(0,0,0,.3);
+    }
+    .qr-overlay.open .qr-box { transform: translateY(0); }
+    .qr-dish-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .qr-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--red); margin-bottom: 16px; }
+    .qr-wrap { background: #f9f9f9; border-radius: 14px; padding: 14px; display: inline-block; margin-bottom: 14px; border: 2px solid var(--border); }
+    .qr-img  { width: 160px; height: 160px; display: block; }
+    .scan-msg { font-size: .92rem; color: var(--dark); font-weight: 600; margin-bottom: 4px; }
+    .upi-id   { font-size: .75rem; color: var(--muted); margin-bottom: 18px; }
+    .close-qr {
+      background: var(--red); color: #fff; border: none; border-radius: 12px;
+      padding: 12px 28px; font-size: .88rem; font-weight: 700;
+      cursor: pointer; width: 100%; font-family: 'Nunito', sans-serif; transition: background .2s;
+    }
+    .close-qr:hover { background: var(--orange); }
+ 
+    /* ══════════════════════════════
+       CONTACT SHEET
+    ══════════════════════════════ */
+    #contactSheet h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--red);
+      margin-bottom: 6px; text-align: center;
+    }
+    #contactSheet .contact-sub {
+      text-align: center; font-size: .78rem; color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .contact-field {
+      margin-bottom: 14px;
+    }
+    .contact-field label {
+      display: block; font-size: .78rem; font-weight: 700;
+      color: var(--muted); margin-bottom: 5px; letter-spacing: .3px;
+    }
+    .contact-field input,
+    .contact-field textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .88rem;
+      color: var(--dark);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+      border-color: var(--orange);
+      background: var(--white);
+    }
+    .contact-field textarea {
+      resize: none;
+      line-height: 1.5;
+    }
+    .btn-send {
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange), var(--red));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px; font-size: .92rem; font-weight: 700;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+      margin-top: 4px; transition: opacity .2s;
+    }
+    .btn-send:hover { opacity: .9; }
+    .btn-send:active { opacity: .8; }
+ 
+    @media (min-width: 480px) {
+      .fab { left: auto; right: 20px; }
+    }
+    @media (min-width: 768px) {
+      #home .feed-container { max-width: 480px; margin: 0 auto; }
+      .menu-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+      .cat-label { grid-column: 1/-1; }
+      .hero-banner img, .hero-banner .hero-placeholder { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+ 
+<!-- TOP HEADER -->
+<header class="top-header">
+  <div class="header-brand">
+    <div class="header-logo">🍛</div>
+    <h1>Maa-Shaeb Caterers<small>Authentic · Halal · With Love</small></h1>
+  </div>
+  <div class="header-actions">
+    <button class="hdr-btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="hdr-btn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+  </div>
+</header>
+ 
+<!-- HOME -->
+<section id="home" class="section active">
+  <!-- HERO IMAGE BANNER (replaces stories) -->
+  <div class="hero-banner">
+    <div class="hero-placeholder">
+      <span>🍛</span>
+      <p>Your catering image goes here</p>
+    </div>
+  </div>
+  <div class="feed-container" id="feedContainer"></div>
+</section>
+ 
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="about-hero">
+    <div class="av">🍽️</div>
+    <h2>Maa-Shaeb Caterers</h2>
+    <p>From our kitchen to your table — and beyond</p>
+  </div>
+  <div class="about-body">
+    <div class="niyaz-card">
+      <div class="heart">🤲</div>
+      <h3>Niyaz — Feeding the Needy</h3>
+      <p>With every order, a portion of our food is set aside as <strong>Niyaz</strong> — distributing meals to the less fortunate in our community. Your order is not just a meal; it is a small act of charity.</p>
+    </div>
+    <div class="about-card">
+      <h3>🏠 Who We Are</h3>
+      <p>Maa-Shaeb Caterers was founded to bring home-cooked warmth to weddings, gatherings, and events. Every dish is prepared fresh with hand-picked spices and generations-old recipes passed down with love.</p>
+    </div>
+    <div class="about-card">
+      <h3>✅ Our Promise</h3>
+      <p>100% Halal · No preservatives · Delivered fresh · Custom menus available · Hygienic preparation by certified staff</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="num">500+</div><div class="lbl">Events Catered</div></div>
+      <div class="stat-box"><div class="num">2K+</div><div class="lbl">Meals Donated</div></div>
+      <div class="stat-box"><div class="num">12+</div><div class="lbl">Years Serving</div></div>
+    </div>
+  </div>
+</section>
+ 
+<!-- MENU -->
+<section id="menu" class="section">
+  <div class="menu-header">
+    <h2>Our Menu</h2>
+    <p>Fresh, made-to-order for every occasion</p>
+  </div>
+  <div class="menu-body" id="menuBody"></div>
+</section>
+ 
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showSection('home',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </button>
+  <button class="nav-item" onclick="showSection('about',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    About
+  </button>
+  <button class="nav-item" onclick="showSection('menu',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    Menu
+  </button>
+  <button class="nav-item contact-nav" onclick="openContactSheet()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V19a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3 4.18 2 2 0 0 1 5 2h2.09a2 2 0 0 1 2 1.72c.13 1 .37 1.97.72 2.9a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.18-1.18a2 2 0 0 1 2.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0 1 22 16.92z"/></svg>
+    Contact
+  </button>
+</nav>
+ 
+<!-- FAB -->
+<button class="fab" id="fabBtn" onclick="openPostSheet()">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+ 
+<!-- CREATE POST OVERLAY -->
+<div class="overlay" id="postOverlay" onclick="bgClose(event,'postOverlay',resetPost)">
+  <div class="sheet" id="postSheet">
+    <div class="sheet-handle"></div>
+    <h3>Share a Moment 📸</h3>
+    <input type="file" id="fileInput" accept="image/*,video/*" onchange="previewFile(this)"/>
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="uz-icon">🖼️</div>
+      <p><strong>Tap to upload</strong> a photo or video</p>
+      <p style="margin-top:4px;font-size:.73rem;">JPG, PNG, MP4 supported</p>
+    </div>
+    <div class="preview-wrap" id="previewWrap">
+      <img id="previewImg" src="" alt="" style="display:none"/>
+      <video id="previewVid" src="" controls style="display:none"></video>
+      <button class="rm-preview" onclick="removePreview()">✕</button>
+    </div>
+    <textarea class="caption-input" id="captionInput" rows="3" placeholder="Write a caption... 🍛"></textarea>
+    <div class="sheet-actions">
+      <button class="btn-cancel" onclick="closePostSheet()">Cancel</button>
+      <button class="btn-post" onclick="submitPost()">Post Now ✨</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- SHARE OVERLAY -->
+<div class="overlay" id="shareOverlay" onclick="bgClose(event,'shareOverlay',null)">
+  <div class="sheet" id="shareSheet">
+    <div class="sheet-handle"></div>
+    <h4>Share this post</h4>
+    <div class="share-grid">
+      <button class="share-opt" onclick="shareVia('whatsapp')"><div class="si si-wa">📱</div><span>WhatsApp</span></button>
+      <button class="share-opt" onclick="shareVia('instagram')"><div class="si si-ig">📸</div><span>Instagram</span></button>
+      <button class="share-opt" onclick="shareVia('facebook')"><div class="si si-fb">👍</div><span>Facebook</span></button>
+      <button class="share-opt" onclick="shareVia('twitter')"><div class="si si-tw">🐦</div><span>Twitter/X</span></button>
+      <button class="share-opt" onclick="shareVia('sms')"><div class="si si-sms">💬</div><span>Message</span></button>
+      <button class="share-opt" onclick="shareVia('email')"><div class="si si-mail">📧</div><span>Email</span></button>
+      <button class="share-opt" onclick="shareVia('copy')"><div class="si si-copy">🔗</div><span>Copy Link</span></button>
+      <button class="share-opt" onclick="shareVia('more')"><div class="si si-more">⋯</div><span>More</span></button>
+    </div>
+    <button class="share-cancel" onclick="close_('shareOverlay')">Cancel</button>
+  </div>
+</div>
+ 
+<!-- CONTACT OVERLAY -->
+<div class="overlay" id="contactOverlay" onclick="bgClose(event,'contactOverlay',null)">
+  <div class="sheet" id="contactSheet">
+    <div class="sheet-handle"></div>
+    <h3>Contact Us 🤝</h3>
+    <p class="contact-sub">We'd love to hear from you. Fill in your details and we'll get back to you soon.</p>
+    <div class="contact-field">
+      <label>NAME</label>
+      <input type="text" id="contactName" placeholder="Your full name" autocomplete="name"/>
+    </div>
+    <div class="contact-field">
+      <label>PHONE NUMBER</label>
+      <input type="tel" id="contactPhone" placeholder="Your phone number" autocomplete="tel"/>
+    </div>
+    <div class="contact-field">
+      <label>MESSAGE</label>
+      <textarea id="contactMessage" rows="4" placeholder="Tell us about your event or enquiry..."></textarea>
+    </div>
+    <button class="btn-send" onclick="submitContact()">Send Message 📨</button>
+  </div>
+</div>
+ 
+<!-- QR POPUP -->
+<div class="qr-overlay" id="qrOverlay" onclick="qrBgClose(event)">
+  <div class="qr-box">
+    <div class="qr-dish-label" id="qrLabel">Order</div>
+    <h3 id="qrName">Biryani</h3>
+    <div class="qr-wrap">
+      <svg class="qr-img" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="160" height="160" fill="#fff"/>
+        <rect x="8" y="8" width="46" height="46" fill="none" stroke="#1A0A00" stroke-width="5" rx="4"/>
+        <rect x="17" y="17" width="28" height="28" fill="#1A0A00" rx="2"/>
+        <rect x="106" y="8" width="46" height="46" fill="none" stroke="#1A0A00" stroke-width="5" rx="4"/>
+        <rect x="115" y="17" width="28" height="28" fill="#1A0A00" rx="2"/>
+        <rect x="8" y="106" width="46" height="46" fill="none" stroke="#1A0A00" stroke-width="5" rx="4"/>
+        <rect x="17" y="115" width="28" height="28" fill="#1A0A00" rx="2"/>
+        <rect x="64" y="8" width="7" height="7" fill="#F26419"/>
+        <rect x="75" y="8" width="7" height="7" fill="#1A0A00"/>
+        <rect x="86" y="8" width="7" height="7" fill="#F26419"/>
+        <rect x="64" y="19" width="7" height="7" fill="#1A0A00"/>
+        <rect x="75" y="19" width="7" height="7" fill="#F26419"/>
+        <rect x="86" y="19" width="7" height="7" fill="#1A0A00"/>
+        <rect x="64" y="30" width="7" height="7" fill="#F26419"/>
+        <rect x="75" y="41" width="7" height="7" fill="#F26419"/>
+        <rect x="86" y="41" width="7" height="7" fill="#1A0A00"/>
+        <rect x="8" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="19" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="30" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="41" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="52" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="64" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="75" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="86" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="97" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="108" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="119" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="130" y="64" width="7" height="7" fill="#1A0A00"/>
+        <rect x="141" y="64" width="7" height="7" fill="#F26419"/>
+        <rect x="64" y="75" width="7" height="7" fill="#F26419"/>
+        <rect x="75" y="75" width="7" height="7" fill="#1A0A00"/>
+        <rect x="86" y="75" width="7" height="7" fill="#F26419"/>
+        <rect x="97" y="86" width="7" height="7" fill="#1A0A00"/>
+        <rect x="108" y="75" width="7" height="7" fill="#F26419"/>
+        <rect x="119" y="86" width="7" height="7" fill="#1A0A00"/>
+        <rect x="130" y="97" width="7" height="7" fill="#F26419"/>
+        <rect x="141" y="97" width="7" height="7" fill="#1A0A00"/>
+        <rect x="97" y="108" width="7" height="7" fill="#F26419"/>
+        <rect x="108" y="119" width="7" height="7" fill="#1A0A00"/>
+        <rect x="119" y="108" width="7" height="7" fill="#F26419"/>
+        <rect x="130" y="119" width="7" height="7" fill="#1A0A00"/>
+        <rect x="141" y="119" width="7" height="7" fill="#F26419"/>
+        <rect x="97" y="130" width="7" height="7" fill="#1A0A00"/>
+        <rect x="108" y="141" width="7" height="7" fill="#F26419"/>
+        <rect x="119" y="130" width="7" height="7" fill="#1A0A00"/>
+        <rect x="130" y="141" width="7" height="7" fill="#F26419"/>
+        <rect x="141" y="130" width="7" height="7" fill="#1A0A00"/>
+        <rect x="72" y="72" width="16" height="16" fill="#fff" rx="2"/>
+        <text x="80" y="84" font-size="11" text-anchor="middle" fill="#F26419">🍛</text>
+      </svg>
+    </div>
+    <p class="scan-msg">📲 Scan QR Code to Pay</p>
+    <p class="upi-id">UPI ID: maashaeb@upi · GPay / PhonePe / Paytm</p>
+    <button class="close-qr" onclick="close_('qrOverlay')">Done ✓</button>
+  </div>
+</div>
+ 
+<script>
+/* ── DATA ── */
+let posts = [
+  {id:1,img:'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=700&q=80',caption:"Our signature Chicken Dum Biryani — slow-cooked with whole spices and fresh saffron. 🤤",tags:'#MaaShaebCaterers #Biryani #HyderabadiFood',likes:142,liked:false,comments:18,time:'2 hours ago'},
+  {id:2,img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&q=80',caption:'Hot samosas fresh off the pan! 🔥 Perfect for your evening snack platter.',tags:'#Samosa #EveningSnacks #CateringMumbai',likes:89,liked:false,comments:11,time:'5 hours ago'},
+  {id:3,img:'https://images.unsplash.com/photo-1555126634-323283e090fa?w=700&q=80',caption:'Sheer Khurma for a sweet celebration 🌙 Dates, vermicelli, saffron, love.',tags:'#SheerKhurma #DesiSweets #HalalFood',likes:204,liked:false,comments:27,time:'Yesterday'},
+  {id:4,img:'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=700&q=80',caption:'Gajar Halwa made with 100% pure ghee — the way our mothers made it. 🥕❤️',tags:'#GajarHalwa #PureDesi #MaaShaebCaterers',likes:176,liked:false,comments:22,time:'2 days ago'},
+  {id:5,img:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=700&q=80',caption:'Rich slow-simmered Mutton Curry — the soul of every Shaeb feast. 🍲',tags:'#MuttonCurry #HomeStyle #CateringLife',likes:118,liked:false,comments:14,time:'3 days ago'},
+];
+ 
+const menuData = [
+  {cat:'🍚 Rice & Biryani',items:[
+    {name:'Chicken Biryani',desc:'Slow-cooked basmati with whole spices & dum steam',price:'₹180/plate',img:'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=200&q=80'},
+    {name:'Mutton Biryani',desc:'Tender mutton in fragrant saffron rice',price:'₹250/plate',img:'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=200&q=80'},
+    {name:'Veg Pulao',desc:'Lightly spiced rice with seasonal vegetables',price:'₹100/plate',img:'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&q=80'},
+  ]},
+  {cat:'🍗 Non-Veg Mains',items:[
+    {name:'Chicken Curry',desc:'Classic home-style gravy with fresh masala',price:'₹150/plate',img:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=200&q=80'},
+    {name:'Mutton Keema',desc:'Minced mutton with peas & aromatic spices',price:'₹200/plate',img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&q=80'},
+  ]},
+  {cat:'🥗 Vegetarian',items:[
+    {name:'Dal Tadka',desc:'Yellow lentils with sizzling ghee & cumin',price:'₹80/plate',img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=80'},
+    {name:'Paneer Masala',desc:'Soft cottage cheese in rich tomato-onion gravy',price:'₹130/plate',img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&q=80'},
+  ]},
+  {cat:'🍮 Sweets',items:[
+    {name:'Sheer Khurma',desc:'Vermicelli pudding with dates, nuts & rose water',price:'₹70/cup',img:'https://images.unsplash.com/photo-1555126634-323283e090fa?w=200&q=80'},
+    {name:'Gajar Halwa',desc:'Slow-cooked carrot halwa with khoya & cardamom',price:'₹80/plate',img:'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=200&q=80'},
+  ]},
+];
+ 
+let shareCaption = '', shareImg = '';
+ 
+/* ── BUILD FEED ── */
+function buildFeed() {
+  document.getElementById('feedContainer').innerHTML = posts.map((p,idx) => `
+    <div class="post-card" style="animation-delay:${idx*.07}s">
+      <div class="post-header">
+        <div class="post-avatar">🍛</div>
+        <div class="post-meta">
+          <div class="uname">maashaebcaterers</div>
+          <div class="utime">${p.time}</div>
+        </div>
+        <button class="post-more">⋯</button>
+      </div>
+      <div class="post-media" ondblclick="dtLike(${p.id})">
+        <img src="${p.img}" alt="food" loading="lazy"/>
+        <div class="heart-burst" id="hb${p.id}">❤️</div>
+      </div>
+      <div class="post-actions">
+        <button class="action-btn${p.liked?' liked':''}" id="lb${p.id}" onclick="toggleLike(${p.id})">
+          <svg viewBox="0 0 24 24" fill="${p.liked?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span id="lc${p.id}">${p.likes}</span>
+        </button>
+        <button class="action-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>${p.comments}</span>
+        </button>
+        <button class="action-btn share-btn" onclick="openShare('${encodeURIComponent(p.caption)}','${p.img}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          <span>Share</span>
+        </button>
+      </div>
+      <div class="post-caption">
+        <span class="uname2">maashaebcaterers</span>
+        <span class="captext">${p.caption}</span>
+        <div class="tags">${p.tags}</div>
+      </div>
+    </div>`).join('');
+}
+ 
+/* ── LIKE ── */
+function toggleLike(id) {
+  const p = posts.find(x=>x.id===id);
+  p.liked=!p.liked; p.likes+=p.liked?1:-1;
+  const btn=document.getElementById('lb'+id);
+  btn.classList.toggle('liked',p.liked);
+  btn.querySelector('svg').setAttribute('fill',p.liked?'currentColor':'none');
+  document.getElementById('lc'+id).textContent=p.likes;
+}
+function dtLike(id) {
+  const p=posts.find(x=>x.id===id);
+  if(!p.liked){p.liked=true;p.likes++;
+    const btn=document.getElementById('lb'+id);
+    btn.classList.add('liked');
+    btn.querySelector('svg').setAttribute('fill','currentColor');
+    document.getElementById('lc'+id).textContent=p.likes;
+  }
+  const hb=document.getElementById('hb'+id);
+  hb.classList.add('pop');
+  setTimeout(()=>hb.classList.remove('pop'),700);
+}
+ 
+/* ── NAV ── */
+function showSection(id,btn) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('fabBtn').style.display = id==='home'?'flex':'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+ 
+/* ── CLOSE HELPERS ── */
+function close_(id){ document.getElementById(id).classList.remove('open'); }
+function bgClose(e,id,cb){ if(e.target===document.getElementById(id)){ close_(id); if(cb) cb(); } }
+function qrBgClose(e){ bgClose(e,'qrOverlay',null); }
+ 
+/* ── CREATE POST ── */
+function openPostSheet(){ document.getElementById('postOverlay').classList.add('open'); }
+function closePostSheet(){ close_('postOverlay'); resetPost(); }
+function resetPost(){
+  document.getElementById('captionInput').value='';
+  removePreview();
+}
+function previewFile(input){
+  const f=input.files[0]; if(!f)return;
+  const url=URL.createObjectURL(f);
+  const isVid=f.type.startsWith('video/');
+  document.getElementById('uploadZone').style.display='none';
+  document.getElementById('previewWrap').style.display='block';
+  const img=document.getElementById('previewImg');
+  const vid=document.getElementById('previewVid');
+  if(isVid){vid.src=url;vid.style.display='block';img.style.display='none';}
+  else{img.src=url;img.style.display='block';vid.style.display='none';}
+}
+function removePreview(){
+  document.getElementById('fileInput').value='';
+  document.getElementById('previewWrap').style.display='none';
+  document.getElementById('previewImg').src='';
+  document.getElementById('previewVid').src='';
+  document.getElementById('uploadZone').style.display='block';
+}
+function submitPost(){
+  const cap=document.getElementById('captionInput').value.trim();
+  const img=document.getElementById('previewImg');
+  const vid=document.getElementById('previewVid');
+  const hasImg=img.src&&img.style.display!=='none';
+  const hasVid=vid.src&&vid.style.display!=='none';
+  if(!cap&&!hasImg&&!hasVid){alert('Please add media or a caption!');return;}
+  posts.unshift({
+    id:Date.now(),
+    img:hasImg?img.src:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80',
+    caption:cap||'Fresh from our kitchen! 🍽️',
+    tags:'#MaaShaebCaterers #HomeMade',
+    likes:0,liked:false,comments:0,time:'Just now'
+  });
+  buildFeed();
+  closePostSheet();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+ 
+/* ── SHARE ── */
+function openShare(cap,img){
+  shareCaption=decodeURIComponent(cap); shareImg=img;
+  document.getElementById('shareOverlay').classList.add('open');
+}
+function shareVia(p){
+  const txt=`Check out Maa-Shaeb Caterers! 🍛\n\n${shareCaption}\n\nOrder now: ${location.href}`;
+  const et=encodeURIComponent(txt), eu=encodeURIComponent(location.href);
+  const map={
+    whatsapp:`https://wa.me/?text=${et}`,
+    facebook:`https://www.facebook.com/sharer/sharer.php?u=${eu}`,
+    twitter:`https://twitter.com/intent/tweet?text=${et}`,
+    sms:`sms:?body=${et}`,
+    email:`mailto:?subject=${encodeURIComponent('Maa-Shaeb Caterers')}&body=${et}`,
+  };
+  if(p==='more'&&navigator.share){
+    navigator.share({title:'Maa-Shaeb Caterers',text:txt,url:location.href}).then(()=>close_('shareOverlay')).catch(()=>{});
+    return;
+  }
+  if(p==='copy'){
+    navigator.clipboard.writeText(location.href).then(()=>{alert('Link copied! 🔗');close_('shareOverlay');});
+    return;
+  }
+  if(p==='instagram'){
+    navigator.clipboard.writeText(location.href).catch(()=>{});
+    alert('Link copied! Open Instagram and paste it to share. 📸');
+    close_('shareOverlay'); return;
+  }
+  if(map[p]){window.open(map[p],'_blank');close_('shareOverlay');}
+}
+ 
+/* ── CONTACT ── */
+function openContactSheet(){ document.getElementById('contactOverlay').classList.add('open'); }
+function submitContact(){
+  const name=document.getElementById('contactName').value.trim();
+  const phone=document.getElementById('contactPhone').value.trim();
+  const msg=document.getElementById('contactMessage').value.trim();
+  if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+  alert('Thank you, '+name+'! 🙏\nWe\'ll be in touch soon.');
+  document.getElementById('contactName').value='';
+  document.getElementById('contactPhone').value='';
+  document.getElementById('contactMessage').value='';
+  close_('contactOverlay');
+}
+ 
+/* ── QR ── */
+function openQR(name,price){
+  document.getElementById('qrLabel').textContent=price;
+  document.getElementById('qrName').textContent=name;
+  document.getElementById('qrOverlay').classList.add('open');
+}
+ 
+/* ── MENU ── */
+function buildMenu(){
+  const b=document.getElementById('menuBody');
+  menuData.forEach(c=>{
+    b.innerHTML+=`<div class="cat-label">${c.cat}</div>`;
+    c.items.forEach(item=>{
+      b.innerHTML+=`
+        <div class="menu-card">
+          <img src="${item.img}" alt="${item.name}" loading="lazy"/>
+          <div class="mci">
+            <h3>${item.name}</h3><p>${item.desc}</p>
+            <span class="price">${item.price}</span>
+          </div>
+          <div class="mcr">
+            <button class="order-btn" onclick="openQR('${item.name}','${item.price}')">Order<br>Now</button>
+          </div>
+        </div>`;
+    });
+  });
+}
+ 
+/* ── INIT ── */
+buildFeed(); buildMenu();
+</script>
+</body>
+</html>
